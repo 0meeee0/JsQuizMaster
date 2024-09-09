@@ -1,0 +1,32 @@
+*{
+    font-family: 'Jaro', sans-serif;
+}
+body{
+    background-image: url('../images/bg.png');
+    background-size: 70%;
+}
+
+.headr{
+    font-size: 120px;
+    color: blue;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: black;
+}
+.span1{
+    color: #050C9C;
+}
+.span2{
+    color: #3572EF;
+}
+.boto{
+    position: relative;
+    
+    padding: 7px 50px !important;
+    border-bottom: #A7E6FF 2px solid !important;
+    border-right: #A7E6FF 2px solid !important;
+}
+.boto:active{
+    left: 2px;
+    top: 2px;
+    border: none !important;
+}
