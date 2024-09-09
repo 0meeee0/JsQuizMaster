@@ -1,71 +1,97 @@
-CREATE DATABASE smartexam;
-use smartexam ;
-create TABLE users(
-    id_user int AUTO_INCREMENT PRIMARY KEY,
-    firstName varchar(255),
-	name varchar(255),
-    email varchar(255),
-	password varchar(255),
-    role enum('foramateur','etudiant','admine')
-);
-CREATE TABLE formateurs(
-	id_formateur int AUTO_INCREMENT PRIMARY KEY,
-    id_user int,
-    FOREIGN KEY id_user REFERENCES users(id_user),
-    birthDay date,
-    adresse varchar(255),
-    specialty varchar(255));
-CREATE TABLE etudiant(
-	id_etudiant int AUTO_INCREMENT PRIMARY KEY,
-    id_user int,
-     FOREIGN KEY id_user REFERENCES users(id_user),
-    birthDay date,
-    adresse varchar(255),
-    inscriptionDate date 
-    
+-- Create the database and use it
+CREATE DATABASE jssmartquiz;
+USE jssmartquiz;
+
+-- Users table
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(255),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    role ENUM('formateur', 'etudiant', 'admin')
 );
 
-CREATE table quiz(
-	id_quiz int AUTO_INCREMENT PRIMARY KEY,
-    score int,
-    answerVisibilty boolean,
-    chances int,
-    feedback varchar(255)
+-- Formateurs table
+CREATE TABLE formateurs (
+    id_formateur INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES users(id_user),
+    birthDay DATE,
+    adresse VARCHAR(255),
+    specialty VARCHAR(255)
 );
 
+-- Etudiant table
+CREATE TABLE etudiant (
+    id_etudiant INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES users(id_user),
+    birthDay DATE,
+    adresse VARCHAR(255),
+    inscriptionDate DATE
+);
+
+-- Quiz table
+CREATE TABLE quiz (
+    id_quiz INT AUTO_INCREMENT PRIMARY KEY,
+    score INT,
+    answerVisibility BOOLEAN,
+    chances INT,
+    feedback VARCHAR(255)
+);
+
+-- Etudiant_Quiz table
 CREATE TABLE etudiant_quiz (
-    id_etudiant INT,  
-    id_quiz INT,    
-    attempt_number INT NOT NULL, 
-    score_obtained INT NOT NULL,  
-    final_result BOOLEAN,         
-    PRIMARY KEY (id_etudiant, id_quiz),  
+    id_etudiant INT,
+    id_quiz INT,
+    attempt_number INT NOT NULL,
+    score_obtained INT NOT NULL,
+    final_result BOOLEAN,
+    PRIMARY KEY (id_etudiant, id_quiz),
     FOREIGN KEY (id_etudiant) REFERENCES etudiant(id_etudiant) ON DELETE CASCADE,
     FOREIGN KEY (id_quiz) REFERENCES quiz(id_quiz) ON DELETE CASCADE
 );
 
-create table niveaux(
-	id_niveaux int AUTO_INCREMENT PRIMARY key,
-    descriotion varchar(255),
-	valeusMin int,
-    valeursMax int 
+-- Niveaux table
+CREATE TABLE niveaux (
+    id_niveaux INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(255),
+    valeurMin INT,
+    valeurMax INT
 );
 
-
-create table questions (
-	id_question int AUTO_INCREMENT PRIMARY KEY,
-    questionText text,
-    image blob,
-    video blob,
-    point int,
-    id_niveaux int not null,
-    FOREIGN KEY (id_niveaux) REFERENCES niveaux(id_niveaux) on DELETE CASCADE
+-- Sujets table
+CREATE TABLE sujets (
+    id_sujet INT AUTO_INCREMENT PRIMARY KEY,
+    intitule VARCHAR(255) NOT NULL
 );
 
-create TABLE answer(
-	id_answer int AUTO_INCREMENT PRIMARY key,
-    id_question int,
+-- Sous_sujets table
+CREATE TABLE sous_sujets (
+    id_sous_sujet INT AUTO_INCREMENT PRIMARY KEY,
+    intitule VARCHAR(255) NOT NULL,
+    id_sujet INT,
+    FOREIGN KEY (id_sujet) REFERENCES sujets(id_sujet) ON DELETE CASCADE
+);
+
+-- Questions table
+CREATE TABLE questions (
+    id_question INT AUTO_INCREMENT PRIMARY KEY,
+    questionText TEXT,
+    image BLOB,
+    video BLOB,
+    point INT,
+    id_niveaux INT NOT NULL,
+    id_sujet INT,
+    FOREIGN KEY (id_niveaux) REFERENCES niveaux(id_niveaux) ON DELETE CASCADE,
+    FOREIGN KEY (id_sujet) REFERENCES sujets(id_sujet) ON DELETE CASCADE
+);
+
+-- Answer table
+CREATE TABLE answer (
+    id_answer INT AUTO_INCREMENT PRIMARY KEY,
+    id_question INT,
     FOREIGN KEY (id_question) REFERENCES questions(id_question) ON DELETE CASCADE,
-    answerText text 
+    answerText TEXT
 );
-
