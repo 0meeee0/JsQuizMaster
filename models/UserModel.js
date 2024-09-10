@@ -1,12 +1,10 @@
-const db = require('../config/config');
-
-exports.getAllUsers = (callback) => {
-  const sql = 'SELECT * FROM users';
-  db.query(sql, (err, results) => {
+const db = require('../config/config')
+exports.findUserByEmail = (email, callback) => {
+  const sql = 'SELECT * FROM users WHERE email = ?';
+  db.query(sql, [email], (err, result) => {
     if (err) {
-      console.error('Error fetching users:', err);
       return callback(err, null);
     }
-    callback(null, results);
+    return callback(null, result[0]);
   });
 };

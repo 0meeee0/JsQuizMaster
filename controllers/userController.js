@@ -1,10 +1,22 @@
 const User = require('../models/UserModel');
 
-exports.getAllUsers = (req, res) => {
-  User.getAllUsers((err, users) => {
-    if (err) {
-      return res.status(500).send('An error occurred while fetching users');
-    }
-    res.render('index', { users });
-  });
-};
+exports.showLoginForm = (req, res) => {
+    res.render('index', { error: null });
+  };
+
+  exports.loginUser = (req, res) => {
+    const { username, password } = req.body;
+    
+    UserModel.findUserByUsername(username, (err, user) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).send('Database error');
+      }
+  
+      if (user && user.password === password) {
+        res.send('Login successful!');
+      } else {
+        res.render('login', { error: 'Invalid username or password' });
+      }
+    });
+  };

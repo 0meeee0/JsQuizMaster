@@ -1,15 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000
-const path = require('path');
-const userRoutes= require('./routes/UserRouter')
-app.use(express.static(path.join(__dirname, 'public')));
+const authRoutes = require('./routes/UserRouter');
 
-app.set('view engine', 'ejs')
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/', userRoutes);
+app.set('view engine', 'ejs');
 
+app.use(express.static('public'));
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.use('/', authRoutes);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
