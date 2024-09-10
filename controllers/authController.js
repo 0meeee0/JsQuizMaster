@@ -30,7 +30,8 @@ exports.loginUser = (req, res) => {
 
     console.log("Session created with userId:", req.session.userId);
 
-    res.redirect('/dashboard'); 
+    // res.redirect('/Dashbord');
+    res.render('formateursDashbord', { user: req.session.user }); 
   });
 };
 
