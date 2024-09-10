@@ -1,10 +1,17 @@
 const express = require('express');
 const app = express();
 const authRoutes = require('./routes/UserRouter');
+const session = require('express-session');
 
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
+app.use(session({
+  secret: 'yourSecretKey',  
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }  
+}));
 
 app.use(express.static('public'));
 
