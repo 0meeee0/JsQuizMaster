@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const authRoutes = require('./routes/UserRouter');
+const studentRoutes = require('./routes/studentRouter');
 const session = require('express-session');
 
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +17,7 @@ app.use(session({
 app.use(express.static('public'));
 
 app.use('/', authRoutes);
+app.use('/', studentRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {

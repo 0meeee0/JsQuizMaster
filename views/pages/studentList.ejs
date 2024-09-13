@@ -52,7 +52,14 @@
                             <td><%= student.address %></td>
                             <td><%= student.inscriptionDate %></td>
                             <td>
-                                <a href="/students/edit/<%= student.id_user %>" class="btn btn-warning">Edit</a>
+                                <a  href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editStudentModal"
+                                data-id="<%= student.id_user %>"
+                                data-firstname="<%= student.firstName %>"
+                                data-name="<%= student.name %>"
+                                data-email="<%= student.email %>"
+                                data-birthdate="<%= student.birthDate %>"
+                                data-address="<%= student.address %>"
+                                data-inscriptiondate="<%= student.inscriptionDate %>">Edit</a>
                                 <form method="POST" action="/students/delete/<%= student.id_user %>" style="display:inline;">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
@@ -88,6 +95,10 @@
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="birthDate" class="form-label">Birth Date</label>
                             <input type="date" class="form-control" id="birthDate" name="birthDate" required>
                         </div>
@@ -115,30 +126,34 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editStudentForm" method="POST" action="/students/edit/<%= student.id_user %>">
+                    <form id="editStudentForm" method="POST" action="">
                         <div class="mb-3">
                             <label for="editFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="editFirstName" name="firstName" value="<%= student.firstName %>" required>
+                            <input type="text" class="form-control" id="editFirstName" name="firstName" value="" required>
                         </div>
                         <div class="mb-3">
                             <label for="editName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="editName" name="name" value="<%= student.name %>" required>
+                            <input type="text" class="form-control" id="editName" name="name" value=""required>
                         </div>
                         <div class="mb-3">
                             <label for="editEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="editEmail" name="email" value="<%= student.email %>" required>
+                            <input type="email" class="form-control" id="editEmail" name="email" value="" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="editPassword" name="password" value="" required>
                         </div>
                         <div class="mb-3">
                             <label for="editBirthDate" class="form-label">Birth Date</label>
-                            <input type="date" class="form-control" id="editBirthDate" name="birthDate" value="<%= student.birthDate %>" required>
+                            <input type="date" class="form-control" id="editBirthDate" name="birthDate" value=""  required>
                         </div>
                         <div class="mb-3">
                             <label for="editInscriptionDate" class="form-label">Inscription Date</label>
-                            <input type="date" class="form-control" id="editInscriptionDate" name="inscriptionDate" value="<%= student.inscriptionDate %>" required>
+                            <input type="date" class="form-control" id="editInscriptionDate" name="inscriptionDate" value="" required>
                         </div>
                         <div class="mb-3">
                             <label for="editAddress" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="editAddress" name="address" value="<%= student.address %>" required>
+                            <input type="text" class="form-control" id="editAddress" name="address" value="" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
@@ -146,7 +161,33 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var editStudentModal = document.getElementById('editStudentModal');
+            editStudentModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget; 
+                var studentId = button.getAttribute('data-id');
+                var firstName = button.getAttribute('data-firstname');
+                var name = button.getAttribute('data-name');
+                var email = button.getAttribute('data-email');
+                var birthDate = button.getAttribute('data-birthdate');
+                var address = button.getAttribute('data-address');
+                var inscriptionDate = button.getAttribute('data-inscriptiondate');
+        
+                var modal = editStudentModal.querySelector('form');
+                modal.action = '/students/edit/' + studentId;
+        
+                modal.querySelector('#editFirstName').value = firstName;
+                modal.querySelector('#editName').value = name;
+                modal.querySelector('#editEmail').value = email;
+                modal.querySelector('#editPassword').value = ''; 
+                modal.querySelector('#editBirthDate').value = birthDate;
+                modal.querySelector('#editInscriptionDate').value = inscriptionDate;
+                modal.querySelector('#editAddress').value = address;
+            });
+        });
+        </script>
+        
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
