@@ -1,4 +1,6 @@
+DROP DATABASE IF EXISTS jssmartquiz;
 -- Create the database and use it
+-- CREATE DATABASE jssmartquiz;
 CREATE DATABASE jssmartquiz;
 USE jssmartquiz;
 
@@ -9,7 +11,9 @@ CREATE TABLE users (
     name VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
-    role ENUM('formateur', 'etudiant', 'admin')
+    role ENUM('formateur', 'etudiant', 'admin'),
+    birthDay DATE,
+    adresse VARCHAR(255)
 );
 
 -- Formateurs table
@@ -17,8 +21,6 @@ CREATE TABLE formateurs (
     id_formateur INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT,
     FOREIGN KEY (id_user) REFERENCES users(id_user),
-    birthDay DATE,
-    adresse VARCHAR(255),
     specialty VARCHAR(255)
 );
 
@@ -27,8 +29,6 @@ CREATE TABLE etudiant (
     id_etudiant INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT,
     FOREIGN KEY (id_user) REFERENCES users(id_user),
-    birthDay DATE,
-    adresse VARCHAR(255),
     inscriptionDate DATE
 );
 
@@ -84,6 +84,7 @@ CREATE TABLE questions (
     point INT,
     id_niveaux INT NOT NULL,
     id_sujet INT,
+    id_quiz INT,
     FOREIGN KEY (id_niveaux) REFERENCES niveaux(id_niveaux) ON DELETE CASCADE,
     FOREIGN KEY (id_sujet) REFERENCES sujets(id_sujet) ON DELETE CASCADE
 );

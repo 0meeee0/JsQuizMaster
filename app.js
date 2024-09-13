@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const authRoutes = require('./routes/UserRouter');
+const studentRoutes = require("./routes/StudentRouter");
+const quizRoutes = require("./routes/QuizRouter");
 const session = require('express-session');
 
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +18,8 @@ app.use(session({
 app.use(express.static('public'));
 
 app.use('/', authRoutes);
+app.use(studentRoutes);
+app.use(quizRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {
