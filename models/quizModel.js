@@ -1,27 +1,17 @@
-const db = require("../config/config"); // Assuming db config is in this file
+const db = require("../config/config");
 
 module.exports = {
-  // Function to add a new quiz
-  addQuiz: (quizData, callback) => {
-    const quizQuery = `
-      INSERT INTO quiz (score, answerVisibility, chances, feedback)
-      VALUES (?, ?, ?, ?)
-    `;
-    return quizQuery
-    db.query(
-      quizQuery,
-      [
-        quizData.score,
-        quizData.answerVisibility,
-        quizData.chances,
-        quizData.feedback,
-      ],
-      (err, result) => {
+  quizList: () => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT * FROM quiz
+      `;
+      db.query(query, (err, results) => {
         if (err) {
-          return callback(err, null);
+          return reject(err);
         }
-        return callback(null, result);
-      }
-    );
+        resolve(results);
+      });
+    });
   },
 };

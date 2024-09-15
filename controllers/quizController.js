@@ -1,17 +1,17 @@
 const QuizModel = require("../models/quizModel");
 
 exports.createQuiz = async (req, res) => {
-  try {
-    const { quizName } = req.body;
 
-    const newQuiz = new QuizModel({
-      name: quizName,
-    });
-
-    await newQuiz.save();
-    res.redirect(`/pages/quizCreation/${newQuiz._id}`);
-  } catch (err) {
-    console.error("Error creating quiz:", err);
-    res.status(500).send("Server Error");
-  }
+    res.render('pages/quizCreation');
+  
 };
+
+exports.quizList = async (req, res) => {
+    try{
+        const quizList = await QuizModel.quizList();
+        res.render('pages/quizm', { quizList });
+    } catch(err){
+        console.error('Error fetching quizzes:', err);
+        res.status(500).send('Error fetching quizzes');
+    }
+}

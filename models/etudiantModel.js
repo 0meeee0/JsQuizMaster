@@ -1,7 +1,5 @@
 const db = require('../config/config');
 
-
-
 module.exports = {
   addStudent: (userData, studentData, callback) => {
     const userQuery = `
@@ -51,6 +49,7 @@ module.exports = {
         FROM users
         JOIN etudiant ON users.id_user = etudiant.id_user
         WHERE users.role = 'etudiant'
+        ORDER BY etudiant.inscriptionDate DESC
       `;
       db.query(query, (err, results) => {
         if (err) {

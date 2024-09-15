@@ -30,7 +30,11 @@ exports.loginUser = (req, res) => {
 
     console.log("Session created with userId:", req.session.userId);
 
-    res.render('pages/home', { user: req.session.user }); 
+    if(user.role == 'formateur'){
+      res.render('pages/home', { user: req.session.user }); 
+    }else if(user.role == 'etudiant'){
+      res.redirect('studentHome'); 
+    }
   });
 };
 
