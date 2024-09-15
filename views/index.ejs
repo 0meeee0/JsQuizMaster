@@ -11,11 +11,14 @@
 <body>
     <div class="container d-flex flex-column-reverse flex-md-row align-items-center justify-content-center vh-100">
         <h1 class="col-12 col-md-6 text-center mb-4 mb-md-0 headr"> <span class="span1">JS</span> QUIZ <span class="span2">MASTER</span></h1>
-        <form class="bg-primary col-12 col-md-4 p-4 rounded-5 text-white h-75" action="/login" method="POST">
+        <form class="bg-primary col-12 col-md-4 p-4 rounded-5 text-white h-75" action="/" method="POST">
             <h1 class="text-white text-center my-4">Welcome !</h1>
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control rounded-4 mb-3" id="username" name="username">
+                <% if (error) { %>
+                <p style="color: red;"><%= error %></p>
+            <% } %>
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control rounded-4 mb-3" id="email" name="email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
